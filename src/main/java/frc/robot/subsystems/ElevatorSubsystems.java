@@ -35,20 +35,23 @@ public class ElevatorSubsystems extends SubsystemBase {
 SparkMax elevatorL = new SparkMax(13, MotorType.kBrushless);
 SparkMax elevatorR = new SparkMax(14, MotorType.kBrushless);
 
-SmartMotorControllerConfig motorConfig = new SmartMotorControllerConfig(this)
-.withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 14))//sprocket curcumfrence
-.withClosedLoopController(4,0,0)
-.withSoftLimit(Meters.of(0), Meters.of(2))
-.withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(3,4)))
-.withIdleMode(MotorMode.BRAKE)
-.withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH)
-.withStatorCurrentLimit(Amps.of(40))
-//.withVoltageCompensation(Volts.of(12))
-//.withMotorInverted(false)
-.withClosedLoopRampRate(Seconds.of(0.25))
-.withOpenLoopRampRate(Seconds.of(0.75))
-.withFeedforward(new ElevatorFeedforward(0, 0, 0))
-.withControlMode(ControlMode.CLOSED_LOOP);
+
+private final SmartMotorControllerConfig motorConfig   = new SmartMotorControllerConfig(this)
+      .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
+      .withClosedLoopController(4, 0, 0, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
+      .withSoftLimit(Meters.of(0), Meters.of(2))
+      .withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(3, 4)))
+//      .withExternalEncoder(armMotor.getAbsoluteEncoder())
+      .withIdleMode(MotorMode.BRAKE)
+      .withTelemetry("ElevatorMotors", TelemetryVerbosity.HIGH)
+//      .withSpecificTelemetry("ElevatorMotor", motorTelemetryConfig)
+      .withStatorCurrentLimit(Amps.of(40))
+      .withVoltageCompensation(Volts.of(12))
+      .withMotorInverted(false)
+      // .withClosedLoopRampRate(Seconds.of(0.25))
+      // .withOpenLoopRampRate(Seconds.of(0.25))
+      .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
+      .withControlMode(ControlMode.CLOSED_LOOP);
 
 private final SmartMotorController  motor = new SparkWrapper(elevatorL, DCMotor.getNEO(1), motorConfig);
 
