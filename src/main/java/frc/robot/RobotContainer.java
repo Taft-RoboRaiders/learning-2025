@@ -6,6 +6,10 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ElevatorSubsystems;
+
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -45,7 +49,10 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_ElevatorSubsystems.set);
+    m_driverController.button(1).whileTrue(m_ElevatorSubsystems.elevCmd(0.1));//l2
+    m_driverController.button(2).whileTrue(m_ElevatorSubsystems.elevCmd(-0.1));//l3
+    m_driverController.button(3).whileTrue(m_ElevatorSubsystems.sysId());  
+    m_driverController.button(4).whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(1.5)));//l2 
   }
 
   /**
@@ -53,8 +60,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+ // public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+  
   }
-}
+

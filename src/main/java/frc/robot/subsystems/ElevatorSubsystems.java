@@ -37,18 +37,18 @@ SparkMax elevatorR = new SparkMax(14, MotorType.kBrushless);
 
 SmartMotorControllerConfig motorConfig = new SmartMotorControllerConfig(this)
 .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 14))//sprocket curcumfrence
-.withClosedLoopController(1,0,0,MetersPerSecond.of(0.2), MetersPerSecondPerSecond.of(0.5))
+.withClosedLoopController(4,0,0)
 .withSoftLimit(Meters.of(0), Meters.of(2))
-.withGearing(SmartMechanism.gearing(SmartMechanism.gearbox("7:1")))
+.withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(3,4)))
 .withIdleMode(MotorMode.BRAKE)
 .withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH)
 .withStatorCurrentLimit(Amps.of(40))
-.withVoltageCompensation(Volts.of(12))
-.withMotorInverted(false)
+//.withVoltageCompensation(Volts.of(12))
+//.withMotorInverted(false)
 .withClosedLoopRampRate(Seconds.of(0.25))
 .withOpenLoopRampRate(Seconds.of(0.75))
 .withFeedforward(new ElevatorFeedforward(0, 0, 0))
-.withControlMode(ControlMode.OPEN_LOOP);
+.withControlMode(ControlMode.CLOSED_LOOP);
 
 private final SmartMotorController  motor = new SparkWrapper(elevatorL, DCMotor.getNEO(1), motorConfig);
 
@@ -56,7 +56,7 @@ private final ElevatorConfig        m_config    = new ElevatorConfig(motor)
 .withStartingHeight(Meters.of(0))
 .withHardLimits(Meters.of(0), Meters.of(3))
 .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
-.withMass(Pounds.of(16));
+.withMass(Pounds.of(2));
 
 private final Elevator          elevator = new Elevator(m_config);
 
