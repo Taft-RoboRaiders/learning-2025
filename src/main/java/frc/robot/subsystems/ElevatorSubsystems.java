@@ -59,7 +59,7 @@ private final ElevatorConfig        m_config    = new ElevatorConfig(motor)
 .withStartingHeight(Meters.of(0))
 .withHardLimits(Meters.of(0), Meters.of(3))
 .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
-.withMass(Pounds.of(2));
+.withMass(Pounds.of(16));
 
 private final Elevator          elevator = new Elevator(m_config);
 
