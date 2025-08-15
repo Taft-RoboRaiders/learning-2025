@@ -19,6 +19,7 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import yams.gearing.GearBox;
@@ -38,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
 SparkMax AlgaePivot = new SparkMax(15, MotorType.kBrushless);
 
 private final SmartMotorControllerConfig motorConfig = new SmartMotorControllerConfig(this)
-.withClosedLoopController(4,0,0, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
-.withSoftLimit(Degrees.of(-30), Degrees.of(100))
+.withClosedLoopController(1,0,0, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
+.withSoftLimit(Degrees.of(-30), Degrees.of(180))
 .withGearing(gearing(gearbox(3, 4)))
 .withIdleMode(MotorMode.BRAKE)
 .withTelemetry("AlgaePivot", TelemetryVerbosity.HIGH)
@@ -58,7 +59,7 @@ private final MechanismPositionConfig    robotToMechanism = new MechanismPositio
 .withRelativePosition(new Translation3d(Meters.of(0.25), Meters.of(0), Meters.of(0.5)));
 
 private final ArmConfig                  m_config    = new ArmConfig(motor)
-.withLength(Meters.of(0.135))
+.withLength(Meters.of(1))
 .withHardLimit(Degrees.of(-100), Degrees.of(200))
 .withTelemetry("ArmExample", TelemetryVerbosity.HIGH)
 .withMass(Pounds.of(1))
@@ -90,5 +91,10 @@ private final Arm                        arm         = new Arm(m_config);
   public Command sysId()
   {
     return arm.sysId(Volts.of(3), Volts.of(3).per(Second), Second.of(30));
+  }
+
+  public Command setAngle(Angle angle)
+  {
+   return arm.setAngle(angle);
   }
 }

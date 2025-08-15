@@ -1,27 +1,16 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Pounds;
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
 
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SmartMotionConfig;
-
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import yams.gearing.GearBox;
-import yams.mechanisms.SmartMechanism;
 import yams.mechanisms.config.ElevatorConfig;
+import yams.mechanisms.config.MechanismPositionConfig;
 import yams.mechanisms.positional.Elevator;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -30,38 +19,50 @@ import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
-public class ElevatorSubsystems extends SubsystemBase {
+import static edu.wpi.first.units.Units.*;
+import static yams.mechanisms.SmartMechanism.gearbox;
+import static yams.mechanisms.SmartMechanism.gearing;
 
-SparkMax elevatorL = new SparkMax(13, MotorType.kBrushless);
-SparkMax elevatorR = new SparkMax(14, MotorType.kBrushless);
+public class ElevatorSubsystems extends SubsystemBase
+{
 
-
-private final SmartMotorControllerConfig motorConfig   = new SmartMotorControllerConfig(this)
+  private final SparkMax                   elevatorMotor = new SparkMax(2, MotorType.kBrushless);
+//  private final SmartMotorControllerTelemetryConfig motorTelemetryConfig = new SmartMotorControllerTelemetryConfig()
+//          .withMechanismPosition()
+//          .withRotorPosition()
+//          .withMechanismLowerLimit()
+//          .withMechanismUpperLimit();
+  private final SmartMotorControllerConfig motorConfig   = new SmartMotorControllerConfig(this)
       .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
       .withClosedLoopController(4, 0, 0, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
       .withSoftLimit(Meters.of(0), Meters.of(2))
-      .withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(3, 4)))
+      .withGearing(gearing(gearbox(3, 4)))
 //      .withExternalEncoder(armMotor.getAbsoluteEncoder())
       .withIdleMode(MotorMode.BRAKE)
-      .withTelemetry("ElevatorMotors", TelemetryVerbosity.HIGH)
+      .withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH)
 //      .withSpecificTelemetry("ElevatorMotor", motorTelemetryConfig)
       .withStatorCurrentLimit(Amps.of(40))
       .withVoltageCompensation(Volts.of(12))
       .withMotorInverted(false)
-      // .withClosedLoopRampRate(Seconds.of(0.25))
-      // .withOpenLoopRampRate(Seconds.of(0.25))
+      .withClosedLoopRampRate(Seconds.of(0.25))
+      .withOpenLoopRampRate(Seconds.of(0.25))
       .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
       .withControlMode(ControlMode.CLOSED_LOOP);
+  private final SmartMotorController       motor         = new SparkWrapper(elevatorMotor,
+                                                                            DCMotor.getNEO(1),
+                                                                            motorConfig);
+  private final MechanismPositionConfig    robotToMechanism = new MechanismPositionConfig()
+    .withMaxRobotHeight(Meters.of(1.5))
+    .withMaxRobotLength(Meters.of(0.75))
+    .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
-private final SmartMotorController  motor = new SparkWrapper(elevatorL, DCMotor.getNEO(1), motorConfig);
-
-private final ElevatorConfig        m_config    = new ElevatorConfig(motor)
-.withStartingHeight(Meters.of(0))
-.withHardLimits(Meters.of(0), Meters.of(3))
-.withTelemetry("Elevator", TelemetryVerbosity.HIGH)
-.withMass(Pounds.of(16));
-
-private final Elevator          elevator = new Elevator(m_config);
+  private final ElevatorConfig             m_config      = new ElevatorConfig(motor)
+      .withStartingHeight(Meters.of(0.5))
+      .withHardLimits(Meters.of(0), Meters.of(3))
+      .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
+      .withMechanismPositionConfig(robotToMechanism)
+      .withMass(Pounds.of(16));
+  private final Elevator                   elevator      = new Elevator(m_config);
 
   public ElevatorSubsystems()
   {
@@ -93,3 +94,4 @@ private final Elevator          elevator = new Elevator(m_config);
     return elevator.sysId(Volts.of(12), Volts.of(12).per(Second), Second.of(30));
   }
 }
+
