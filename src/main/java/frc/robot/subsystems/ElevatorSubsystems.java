@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -25,8 +27,8 @@ import static yams.mechanisms.SmartMechanism.gearing;
 
 public class ElevatorSubsystems extends SubsystemBase
 {
-
-  private final SparkMax                   elevatorMotor = new SparkMax(2, MotorType.kBrushless);
+  private final SparkMax                   elevatorMotorR = new SparkMax(14, MotorType.kBrushless);
+  private final SparkMax                   elevatorMotorL = new SparkMax(13, MotorType.kBrushless);
 //  private final SmartMotorControllerTelemetryConfig motorTelemetryConfig = new SmartMotorControllerTelemetryConfig()
 //          .withMechanismPosition()
 //          .withRotorPosition()
@@ -47,8 +49,9 @@ public class ElevatorSubsystems extends SubsystemBase
       .withClosedLoopRampRate(Seconds.of(0.25))
       .withOpenLoopRampRate(Seconds.of(0.25))
       .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
-      .withControlMode(ControlMode.CLOSED_LOOP);
-  private final SmartMotorController       motor         = new SparkWrapper(elevatorMotor,
+      .withControlMode(ControlMode.CLOSED_LOOP)
+      .withFollowers(Pair.of(elevatorMotorL, true));
+  private final SmartMotorController       motor         = new SparkWrapper(elevatorMotorR,
                                                                             DCMotor.getNEO(1),
                                                                             motorConfig);
   private final MechanismPositionConfig    robotToMechanism = new MechanismPositionConfig()
