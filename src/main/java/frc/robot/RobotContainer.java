@@ -54,8 +54,8 @@ public class RobotContainer {
     // m_driverController.square().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(1)));
     
     
-    m_driverController.button(1).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(80)));
-    m_driverController.button(2).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(50)));
+    m_driverController.button(3).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(120)));
+    m_driverController.button(2).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(20)));
   }
 
   /**

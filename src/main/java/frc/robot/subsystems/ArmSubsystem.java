@@ -43,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
   //          .withMechanismLowerLimit()
   //          .withMechanismUpperLimit();
     private final SmartMotorControllerConfig motorConfig = new SmartMotorControllerConfig(this)
-        .withClosedLoopController(4, 0, 0, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
+        .withClosedLoopController(10, 0, 10, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
         .withSoftLimit(Degrees.of(-30), Degrees.of(100))
         .withGearing(gearing(gearbox(5, 4, 4)))
   //      .withExternalEncoder(armMotor.getAbsoluteEncoder())
