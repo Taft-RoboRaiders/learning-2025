@@ -9,6 +9,8 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -49,13 +51,13 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    // m_driverController.circle().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.3)));
-    // m_driverController.triangle().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.5)));
-    // m_driverController.square().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(1)));
+     m_driverController.button(1).whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.3)));
+     m_driverController.button(2).whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.6)));
+    //  m_driverController.button().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(1)));
     
     
-    m_driverController.button(3).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(120)));
-    m_driverController.button(2).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(20)));
+    // m_driverController.button(3).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(120)));
+    // m_driverController.button(2).whileTrue(m_ArmSubsystem.setAngle(Degrees.of(20)));
   }
 
   /**

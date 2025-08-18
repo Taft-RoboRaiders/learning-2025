@@ -60,7 +60,7 @@ public class ElevatorSubsystems extends SubsystemBase
     .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
   private final ElevatorConfig             m_config      = new ElevatorConfig(motor)
-      .withStartingHeight(Inches.of(26))
+      .withStartingHeight(Meters.of(0.1))
       .withHardLimits(Meters.of(0), Meters.of(3))
       .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
       .withMechanismPositionConfig(robotToMechanism)
