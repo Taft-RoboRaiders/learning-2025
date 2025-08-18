@@ -20,6 +20,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import yams.mechanisms.velocity.Shooter;
 
 public class CoralSubsystem extends SubsystemBase
 {
@@ -34,10 +35,8 @@ private final SmartMotorControllerConfig motorConfig   = new SmartMotorControlle
     .withOpenLoopRampRate(Seconds.of(0.25))//
     .withControlMode(ControlMode.CLOSED_LOOP)//
     .withFollowers(Pair.of(CoralIntakeR, true));//
-
-private final SmartMotorController       motor         = new SparkWrapper(CoralIntakeL,
-                                                                            DCMotor.getNEO(1),
-                                                                            motorConfig);
+    .withIdleMode(MotorMode.COAST)
+private final Shooter       motor         = new Shooter();
 
  public CoralSubsystemSubsystem()
   {
@@ -46,17 +45,17 @@ private final SmartMotorController       motor         = new SparkWrapper(CoralI
 
   public void periodic()
   {
-    co.updateTelemetry();
+    motor.updateTelemetry();
   }
 
   public void simulationPeriodic()
   {
-    elevator.simIterate();
+    motor.simIterate();
   }
 
   public Command elevCmd(double dutycycle)
   {
-    return elevator.set(dutycycle);
+    return motor.;
   }
       
 }
