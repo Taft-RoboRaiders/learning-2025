@@ -41,16 +41,16 @@ public class ElevatorSubsystems extends SubsystemBase
       .withGearing(gearing(gearbox(3, 4)))
 //      .withExternalEncoder(armMotor.getAbsoluteEncoder())
       .withIdleMode(MotorMode.BRAKE)
-      .withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH)
+      .withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH)//
 //      .withSpecificTelemetry("ElevatorMotor", motorTelemetryConfig)
-      .withStatorCurrentLimit(Amps.of(40))
-      .withVoltageCompensation(Volts.of(12))
-      .withMotorInverted(false)
-      .withClosedLoopRampRate(Seconds.of(0.25))
-      .withOpenLoopRampRate(Seconds.of(0.25))
+      .withStatorCurrentLimit(Amps.of(40))//
+      .withVoltageCompensation(Volts.of(12))//
+      .withMotorInverted(false)//
+      .withClosedLoopRampRate(Seconds.of(0.25))//
+      .withOpenLoopRampRate(Seconds.of(0.25))//
       .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
-      .withControlMode(ControlMode.CLOSED_LOOP)
-      .withFollowers(Pair.of(elevatorMotorL, true));
+      .withControlMode(ControlMode.CLOSED_LOOP)//
+      .withFollowers(Pair.of(elevatorMotorL, true));//
   private final SmartMotorController       motor         = new SparkWrapper(elevatorMotorR,
                                                                             DCMotor.getNEO(1),
                                                                             motorConfig);
@@ -60,11 +60,11 @@ public class ElevatorSubsystems extends SubsystemBase
     .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
   private final ElevatorConfig             m_config      = new ElevatorConfig(motor)
-      .withStartingHeight(Meters.of(0.5))
+      .withStartingHeight(Inches.of(26))
       .withHardLimits(Meters.of(0), Meters.of(3))
       .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
       .withMechanismPositionConfig(robotToMechanism)
-      .withMass(Pounds.of(16));
+      .withMass(Pounds.of(15));
   private final Elevator                   elevator      = new Elevator(m_config);
 
   public ElevatorSubsystems()
@@ -95,6 +95,11 @@ public class ElevatorSubsystems extends SubsystemBase
   public Command sysId()
   {
     return elevator.sysId(Volts.of(12), Volts.of(12).per(Second), Second.of(30));
+  }
+
+  public Command restHeight()
+  {
+    return run(()->motor.setEncoderPosition(Inches.of(26)));
   }
 }
 

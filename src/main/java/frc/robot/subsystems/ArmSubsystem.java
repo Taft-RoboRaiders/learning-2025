@@ -7,6 +7,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Second;
@@ -62,10 +63,10 @@ public class ArmSubsystem extends SubsystemBase {
       .withMaxRobotLength(Meters.of(0.75))
       .withRelativePosition(new Translation3d(Meters.of(0.25), Meters.of(0), Meters.of(0.5)));
     private final ArmConfig                  m_config    = new ArmConfig(motor)
-        .withLength(Meters.of(0.135))
+        .withLength(Inches.of(12.5))
         .withHardLimit(Degrees.of(-100), Degrees.of(200))
         .withTelemetry("ArmExample", TelemetryVerbosity.HIGH)
-        .withMass(Pounds.of(1))
+        .withMass(Pounds.of(5))
         .withStartingPosition(Degrees.of(0))
         .withHorizontalZero(Degrees.of(0))
         .withMechanismPositionConfig(robotToMechanism);

@@ -21,5 +21,7 @@ public final class Constants {
     public static final int armMotor_ID = 15;
     public static final int elevatorMotorL_ID = 13;
     public static final int elevatorMotorR_ID = 14;
+    public static final int CoralIntakeL_ID = 12; 
+    public static final int CoralIntakeR_ID = 11; 
   }
 }
