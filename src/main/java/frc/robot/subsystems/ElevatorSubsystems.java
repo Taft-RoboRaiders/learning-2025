@@ -36,7 +36,7 @@ public class ElevatorSubsystems extends SubsystemBase
 //          .withMechanismUpperLimit();
   private final SmartMotorControllerConfig motorConfig   = new SmartMotorControllerConfig(this)
       .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
-      .withClosedLoopController(4, 0, 0, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
+      .withClosedLoopController(10, 0, 5, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
       .withSoftLimit(Meters.of(0), Meters.of(2))
       .withGearing(gearing(gearbox(3, 4)))
 //      .withExternalEncoder(armMotor.getAbsoluteEncoder())
@@ -60,7 +60,7 @@ public class ElevatorSubsystems extends SubsystemBase
     .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
   private final ElevatorConfig             m_config      = new ElevatorConfig(motor)
-      .withStartingHeight(Meters.of(0.1))
+      .withStartingHeight(Meters.of(0.0))
       .withHardLimits(Meters.of(0), Meters.of(3))
       .withTelemetry("Elevator", TelemetryVerbosity.HIGH)
       .withMechanismPositionConfig(robotToMechanism)

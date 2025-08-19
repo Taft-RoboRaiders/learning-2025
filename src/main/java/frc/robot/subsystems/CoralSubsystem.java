@@ -1,4 +1,3 @@
-//*
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Amps;
@@ -36,10 +35,32 @@ private final SmartMotorControllerConfig motorConfig   = new SmartMotorControlle
     .withOpenLoopRampRate(Seconds.of(0.25))//
     .withControlMode(ControlMode.CLOSED_LOOP)//
     .withFollowers(Pair.of(CoralIntakeR, true));//
-    
+
+private final SmartMotorController       coralmotor         = new SparkWrapper(CoralIntakeL,
+    DCMotor.getNEO(1),
+    motorConfig);    
+
 private final Shooter       motor         = new Shooter();
 
- 
+public CoralSubsystem()
+{
+
+}
+
+public void periodic()
+{
+  coralmotor.updateTelemetry();
+}
+
+public void simulationPeriodic()
+{
+  coralmotor.simIterate();
+}
+
+public Command outtake(double dutycycle)
+{
+  return run(()-> coralmotor.setDutyCycle(dutycycle));
+}
+
       
 }
-//
