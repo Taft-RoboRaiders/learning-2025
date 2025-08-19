@@ -36,7 +36,7 @@ public class ElevatorSubsystems extends SubsystemBase
 //          .withMechanismUpperLimit();
   private final SmartMotorControllerConfig motorConfig   = new SmartMotorControllerConfig(this)
       .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
-      .withClosedLoopController(10, 0, 5, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
+      .withClosedLoopController(4, 0, 2, MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
       .withSoftLimit(Meters.of(0), Meters.of(2))
       .withGearing(gearing(gearbox(3, 4)))
 //      .withExternalEncoder(armMotor.getAbsoluteEncoder())
@@ -45,7 +45,7 @@ public class ElevatorSubsystems extends SubsystemBase
 //      .withSpecificTelemetry("ElevatorMotor", motorTelemetryConfig)
       .withStatorCurrentLimit(Amps.of(40))//
       .withVoltageCompensation(Volts.of(12))//
-      .withMotorInverted(false)//
+      .withMotorInverted(true)//
       .withClosedLoopRampRate(Seconds.of(0.25))//
       .withOpenLoopRampRate(Seconds.of(0.25))//
       .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
@@ -55,7 +55,7 @@ public class ElevatorSubsystems extends SubsystemBase
                                                                             DCMotor.getNEO(1),
                                                                             motorConfig);
   private final MechanismPositionConfig    robotToMechanism = new MechanismPositionConfig()
-    .withMaxRobotHeight(Meters.of(1.5))
+    .withMaxRobotHeight(Meters.of(7))
     .withMaxRobotLength(Meters.of(0.75))
     .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
@@ -99,7 +99,7 @@ public class ElevatorSubsystems extends SubsystemBase
 
   public Command restHeight()
   {
-    return run(()->motor.setEncoderPosition(Inches.of(26)));
+    return run(()->motor.setEncoderPosition(Meters.of(0)));
   }
 }
 

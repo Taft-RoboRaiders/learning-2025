@@ -11,6 +11,7 @@ import frc.robot.subsystems.ElevatorSubsystems;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -51,8 +52,9 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-     m_driverController.button(1).whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.2)));
-     m_driverController.button(2).whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(0.6)));
+     m_driverController.button(3).whileTrue(m_ElevatorSubsystems.elevCmd(0.5));
+     m_driverController.button(2).whileTrue(m_ElevatorSubsystems.elevCmd(-0.5));
+     m_driverController.button(1).whileTrue(m_ElevatorSubsystems.restHeight());
     //  m_driverController.button().whileTrue(m_ElevatorSubsystems.setHeight(Meters.of(1)));
     
     
